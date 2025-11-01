@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
-using DataProcessingApp.Services;
+﻿using DataProcessingApp.Interface;
 using DataProcessingApp.Models;
+using DataProcessingApp.Services;
+using Moq;
+using System.Diagnostics;
 using Xunit;
 
 namespace Tests
@@ -8,6 +10,29 @@ namespace Tests
     
     public class DataProcessingWorkerTests
     {
+
+        [Fact]
+        public void ProcessData_ShouldReturnExpectedResults()
+        {
+            // Arrange
+            var mockService = new Mock<IDataProcessorService>();
+            var input = new[] { new DataObject { Id = 1, InputData = "Test" } };
+            var expected = new[] { new Result { Id = 1, OutputData = "Processed: Test" } };
+
+            mockService.Setup(s => s.ProcessData(input)).Returns(expected);
+
+            // Act
+            var actual = mockService.Object.ProcessData(input);
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.Single(actual);
+            Assert.Equal(expected[0].Id, actual[0].Id);
+            Assert.Equal(expected[0].OutputData, actual[0].OutputData);
+
+            mockService.Verify(s => s.ProcessData(input), Times.Once);
+        }
+
         [Fact]
         public void ProcessSingle_ReturnsResultWithinTwoSeconds()
         {

@@ -1,4 +1,5 @@
-﻿using DataProcessingApp.Models;
+﻿using DataProcessingApp.Interface;
+using DataProcessingApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataProcessingApp.Services
 {
-    public class DataProcessor
+    public class DataProcessor: IDataProcessorService
     {
         private static readonly Lazy<DataProcessor> _instance = new Lazy<DataProcessor>(() => new DataProcessor());
         private static readonly object _lock = new object();
