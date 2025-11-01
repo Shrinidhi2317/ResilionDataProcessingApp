@@ -16,7 +16,7 @@ namespace DataProcessingApp.Services
 
         public static DataProcessor Instance => _instance.Value;
 
-        // Not re-entrant method, simulating GPU calculation (takes 1 second regardless of the array size 1-4)
+        // Not re-entrant method, (Singleton Instance) takes 1 second regardless of the array size(1-4)
         public Result[] ProcessData(DataObject[] input)
         {
             lock (_lock)

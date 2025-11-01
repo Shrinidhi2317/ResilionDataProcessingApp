@@ -18,15 +18,15 @@ namespace DataProcessingApp.Services
             _queue.Enqueue(obj);
 
             // Process up to 4 objects together if available
-            var batch = new DataObject[4];
+            var batchProcess = new DataObject[4];
             int count = 0;
             while (count < 4 && _queue.TryDequeue(out var item))
             {
-                batch[count++] = item;
+                batchProcess[count++] = item;
             }
             // If only one item, make batch of one
             var toProcess = new DataObject[count];
-            Array.Copy(batch, toProcess, count);
+            Array.Copy(batchProcess, toProcess, count);
 
             var results = DataProcessor.Instance.ProcessData(toProcess);
             // Return result corresponding to current object
